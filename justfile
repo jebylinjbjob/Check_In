@@ -15,6 +15,7 @@ build:
 
 # 重新整理相依套件
 refresh:
+    dotnet tool restore;
     dotnet restore
 
 # 清除建構產物
@@ -23,11 +24,11 @@ clean:
 
 # 格式化程式碼
 fmt:
-    dotnet format
+    dotnet csharpier format .
 
 # 檢查程式碼格式是否符合規範
 fmt-check:
-    dotnet format  --verify-no-changes
+    dotnet csharpier check .
 
 # 執行測試
 test:

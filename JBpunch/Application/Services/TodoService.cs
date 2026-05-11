@@ -20,7 +20,7 @@ public class TodoService(ITodoRepository repository) : ITodoService
         {
             Title = request.Title,
             DueBy = request.DueBy,
-            IsComplete = false
+            IsComplete = false,
         };
 
         var created = repository.Add(todo);
@@ -33,7 +33,7 @@ public class TodoService(ITodoRepository repository) : ITodoService
         {
             Title = request.Title,
             DueBy = request.DueBy,
-            IsComplete = request.IsComplete
+            IsComplete = request.IsComplete,
         };
 
         var updated = repository.Update(id, todo);
@@ -42,5 +42,6 @@ public class TodoService(ITodoRepository repository) : ITodoService
 
     public bool Delete(int id) => repository.Delete(id);
 
-    private static TodoDto ToDto(Todo todo) => new(todo.Id, todo.Title, todo.DueBy, todo.IsComplete);
+    private static TodoDto ToDto(Todo todo) =>
+        new(todo.Id, todo.Title, todo.DueBy, todo.IsComplete);
 }

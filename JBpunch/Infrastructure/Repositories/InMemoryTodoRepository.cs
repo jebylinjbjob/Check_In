@@ -8,10 +8,25 @@ public class InMemoryTodoRepository : ITodoRepository
     private readonly List<Todo> _todos =
     [
         new() { Id = 1, Title = "Walk the dog" },
-        new() { Id = 2, Title = "Do the dishes", DueBy = DateOnly.FromDateTime(DateTime.Now) },
-        new() { Id = 3, Title = "Do the laundry", DueBy = DateOnly.FromDateTime(DateTime.Now.AddDays(1)) },
+        new()
+        {
+            Id = 2,
+            Title = "Do the dishes",
+            DueBy = DateOnly.FromDateTime(DateTime.Now),
+        },
+        new()
+        {
+            Id = 3,
+            Title = "Do the laundry",
+            DueBy = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
+        },
         new() { Id = 4, Title = "Clean the bathroom" },
-        new() { Id = 5, Title = "Clean the car", DueBy = DateOnly.FromDateTime(DateTime.Now.AddDays(2)) }
+        new()
+        {
+            Id = 5,
+            Title = "Clean the car",
+            DueBy = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+        },
     ];
 
     private int _nextId = 6;

@@ -1,5 +1,4 @@
 using HotChocolate;
-
 using JBpunch.Application.Contracts;
 using JBpunch.Application.Services;
 
