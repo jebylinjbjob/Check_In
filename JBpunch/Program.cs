@@ -1,11 +1,4 @@
-using System.Text.Json.Serialization;
-using JBpunch.Application.Abstractions;
-using JBpunch.Application.Contracts;
-using JBpunch.Application.Services;
 using JBpunch.Infrastructure;
-using JBpunch.Infrastructure.Repositories;
-using JBpunch.Presentation.Endpoints;
-using JBpunch.Presentation.GraphQL;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -23,11 +16,6 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Host.UseSerilog();
 
-builder.Services.ConfigureHttpJsonOptions(options =>
-{
-    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-});
-
 builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
 {
     options.SetParameterPolicy<Microsoft.AspNetCore.Routing.Constraints.RegexInlineRouteConstraint>(
@@ -38,10 +26,6 @@ builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
 builder.Services.AddDbContext<JBpunchDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
-builder.Services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
-builder.Services.AddScoped<ITodoService, TodoService>();
-builder.Services.AddGraphQLServer().AddQueryType<TodoQuery>().AddMutationType<TodoMutation>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -59,13 +43,4 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapTodoEndpoints();
-app.MapGraphQL("/graphql");
-
 app.Run();
-
-[JsonSerializable(typeof(TodoDto[]))]
-[JsonSerializable(typeof(TodoDto))]
-[JsonSerializable(typeof(CreateTodoRequest))]
-[JsonSerializable(typeof(UpdateTodoRequest))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext { }
