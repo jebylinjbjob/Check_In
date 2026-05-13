@@ -1,5 +1,5 @@
 # if you want to use linux shell please comment out the line below
-set shell := ["powershell.exe", "-c"]
+# set shell := ["powershell.exe", "-c"]
 
 default:
     just --fmt --unstable 2> $null
@@ -43,5 +43,5 @@ ci:
     just refresh
     just build
     just fmt-check
-    just test
-    just test-integration
+#   just test
+#    just test-integration

@@ -36,7 +36,8 @@ builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
 });
 
 builder.Services.AddDbContext<JBpunchDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
 builder.Services.AddScoped<ITodoService, TodoService>();
