@@ -15,7 +15,6 @@ build:
 
 # 重新整理相依套件
 refresh:
-    dotnet tool restore;
     dotnet restore
 
 # 清除建構產物
@@ -38,10 +37,47 @@ test:
 test-integration:
     # "integration test WIP"
 
+restore_tool:
+    dotnet tool restore
+
 # CI 流程：重新整理相依套件、建構專案、檢查程式碼格式、執行測試
-ci:
+ci: restore_tool
+    just fmt-check
     just refresh
     just build
-    just fmt-check
 #   just test
 #    just test-integration
+
+# === 資料庫相關 ===
+
+# 新增 Migration
+db-add name:
+    dotnet ef migrations add {{name}} --project JBpunch/JBpunch.csproj
+
+# 移除最後一個 Migration
+db-remove:
+    dotnet ef migrations remove --project JBpunch/JBpunch.csproj
+
+# 套用 Migration 到資料庫
+db-update:
+    dotnet ef database update --project JBpunch/JBpunch.csproj
+
+# 回滾到指定 Migration (傳入 Migration 名稱或 0 表示回滾全部)
+db-rollback target="0":
+    dotnet ef database update {{target}} --project JBpunch/JBpunch.csproj
+
+# 刪除資料庫
+db-drop:
+    dotnet ef database drop --project JBpunch/JBpunch.csproj --force
+
+# 列出所有 Migrations
+db-list:
+    dotnet ef migrations list --project JBpunch/JBpunch.csproj
+
+# 產生 SQL Script (從空白到最新)
+db-script:
+    dotnet ef migrations script --project JBpunch/JBpunch.csproj --idempotent -o migrations.sql
+
+# 產生 EF Core 編譯模型 (AOT 優化)
+db-optimize:
+    dotnet ef dbcontext optimize --project JBpunch/JBpunch.csproj --output-dir Data/CompiledModels --namespace JBpunch.Data.CompiledModels
