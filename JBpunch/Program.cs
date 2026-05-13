@@ -2,9 +2,11 @@ using System.Text.Json.Serialization;
 using JBpunch.Application.Abstractions;
 using JBpunch.Application.Contracts;
 using JBpunch.Application.Services;
+using JBpunch.Infrastructure;
 using JBpunch.Infrastructure.Repositories;
 using JBpunch.Presentation.Endpoints;
 using JBpunch.Presentation.GraphQL;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -32,6 +34,9 @@ builder.Services.Configure<Microsoft.AspNetCore.Routing.RouteOptions>(options =>
         "regex"
     );
 });
+
+builder.Services.AddDbContext<JBpunchDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
 builder.Services.AddScoped<ITodoService, TodoService>();
