@@ -56,5 +56,6 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 
+Migrations/
 
 *.lscache

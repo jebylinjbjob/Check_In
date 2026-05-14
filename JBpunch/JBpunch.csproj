@@ -4,8 +4,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <PublishAot>true</PublishAot>
     <UserSecretsId>jbpunch-checkin-secrets</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishAot>true</PublishAot>
+    <!-- 啟用修剪未使用的程式碼 -->
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- 啟用最佳化以縮減大小 -->
+    <OptimizationPreference>Size</OptimizationPreference>
   </PropertyGroup>
 
   <ItemGroup>
